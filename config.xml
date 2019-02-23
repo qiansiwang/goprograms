@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlgenconfig>
+<filename>test.xlsx</filename>
+<sheetname>Sheet1</sheetname>
+<range>1,1:3,5</range>
+<cols>
+<colname>ProviderId</colname>
+<colname>RecordId</colname>
+<colname>IsUpToDate</colname>
+<colname>MappedRecordState</colname>
+<colname>ExternalRecordId</colname>
+</cols>
+<sqltemplate>INSERT INTO LnkProviderRecord (ProviderId, RecordId, IsUpToDate, MappedRecordState, ExternalRecordId) VALUES ({{.ProviderId}}, {{.RecordId}}, {{.IsUpToDate}}, '{{.MappedRecordState}}', '{{.ExternalRecordId}}')</sqltemplate>
+</sqlgenconfig>
