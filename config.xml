@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sqlgenconfig>
-<filename>test.xlsx</filename>
+<filename>ChargeCodes</filename>
 <sheetname>Sheet1</sheetname>
-<range>1,1:3,5</range>
+<range>1,1:192,13</range>
 <cols>
-<colname>ProviderId</colname>
-<colname>RecordId</colname>
-<colname>IsUpToDate</colname>
-<colname>MappedRecordState</colname>
-<colname>ExternalRecordId</colname>
+<colname>ChargeActionTypeId</colname>
+<colname>ChargeActionTypeName</colname>
+<colname>DisplaySequence</colname>
+<colname>BudgetChargeMatchMode</colname>
+<colname>AuditUserId</colname>
+<colname>EnableDuplicateChecking</colname>
+<colname>ChargeActionShortCode</colname>
+<colname>ChargeTypeId</colname>
 </cols>
-<sqltemplate>INSERT INTO LnkProviderRecord (ProviderId, RecordId, IsUpToDate, MappedRecordState, ExternalRecordId) VALUES ({{.ProviderId}}, {{.RecordId}}, {{.IsUpToDate}}, '{{.MappedRecordState}}', '{{.ExternalRecordId}}')</sqltemplate>
+<sqltemplate>IF NOT EXISTS(SELECT 1 FROM RefChargeActionType WHERE ChargeActionTypeName = '{{.ChargeActionTypeName}}')
+    INSERT INTO RefChargeActionType (ChargeActionTypeId, ChargeActionTypeName, DisplaySequence, BudgetChargeMatchMode, AuditUserId, EnableDuplicateChecking, ChargeActionShortCode, ChargeTypeId)
+VALUES ({{.ChargeActionTypeId}}, '{{.ChargeActionTypeName}}', {{.DisplaySequence}}, '{{.BudgetChargeMatchMode}}', {{.AuditUserId}}, {{.EnableDuplicateChecking}}, '{{.ChargeActionShortCode}}', {{.ChargeTypeId}})
+</sqltemplate>
 </sqlgenconfig>

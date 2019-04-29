@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlgenconfig>
+<filename>update</filename>
+<sheetname>data</sheetname>
+<range>1,2:54,2</range>
+<cols>
+<colname>RecordId</colname>
+</cols>
+<sqltemplate>IF NOT EXISTS(SELECT 1 FROM Record WHERE RecordId = {{.RecordId}})
+    THROW 50000, 'Record does not exist.', 1;
+ELSE
+    UPDATE Record SET LastModifiedDate = GETDATE(), LastModifiedByUserId = 1 WHERE RecordId = {{.RecordId}}
+</sqltemplate>
+</sqlgenconfig>

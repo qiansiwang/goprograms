@@ -31,7 +31,7 @@ func main() {
 
 	config := readXML("./config.xml")
 
-	data := readXLSX(config.FileName)
+	data := readXLSX("./" + config.FileName + ".xlsx")
 
 	generateSQL(data, config)
 
@@ -54,7 +54,7 @@ func generateSQL(data *excelize.File, config SQLConfig) {
 	colstart := convertStringToInt(strings.Split(startcell, ",")[1]) - 1
 	colend := convertStringToInt(strings.Split(endcell, ",")[1]) - 1
 	colnames := make(map[string]int)
-	rowsql := config.SQLTemplate
+	rowTemplate := config.SQLTemplate
 	sql := ""
 
 	for ri, row := range data.GetRows(config.SheetName) {
@@ -67,15 +67,17 @@ func generateSQL(data *excelize.File, config SQLConfig) {
 				}
 				continue
 			}
+			rowsql := rowTemplate
 			for _, header := range config.ColNames {
 				colindex := colnames[header]
-				colvalue := row[colindex]
+				colvalue := strings.Trim(row[colindex], " ")
 				rowsql = strings.Replace(rowsql, addCurlyBrkt(header), colvalue, -1)
+				fmt.Println(rowsql)
 			}
 			sql += fmt.Sprintf("%v\r\n", rowsql)
 		}
 	}
-	ioutil.WriteFile("test.sql", []byte(sql), 0644)
+	ioutil.WriteFile(config.FileName+".sql", []byte(sql), 0644)
 }
 
 func addCurlyBrkt(s string) string {

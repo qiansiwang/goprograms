@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlgenconfig>
+<filename>vendor</filename>
+<sheetname>data</sheetname>
+<range>1,2:57,3</range>
+<cols>
+<colname>LegalBodyId</colname>
+<colname>SupplierId</colname>
+</cols>
+<sqltemplate>IF NOT EXISTS(SELECT 1 FROM LegalBody WHERE LegalBodyId = {{.LegalBodyId}})
+    THROW 50000, 'Record does not exist.', 1;
+ELSE
+    UPDATE LegalBody SET SupplierId = '{{.SupplierId}}' WHERE LegalBodyId = {{.LegalBodyId}}
+</sqltemplate>
+</sqlgenconfig>
